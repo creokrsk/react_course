@@ -4,8 +4,8 @@ import api from "../api"
 const Users =() =>{
   const  [person, setPerson] = useState(api.users.fetchAll());
 
-  const handleDelBtn = (user) =>{
-    setPerson((prevState) =>prevState.filter((el) => el!==user))
+  const handleDelBtn = (userId) =>{
+    setPerson((prevState) =>prevState.filter((el) => el._id!==userId))
   }
 
   const getColor = (color) =>{
@@ -18,7 +18,7 @@ const Users =() =>{
     return arr.map(el =>(
       <span
       style={{ margin: 5 }}
-      key={el.name}
+      key={el._id}
       className={getColor(el.color)}>
         {el.name}
       </span>
@@ -36,7 +36,7 @@ const Users =() =>{
     }
   }
 
-  if(person.length===0) {
+  if(person.length === 0) {
     return(<h1><span className="badge bg-danger">Никто с тобой не тусанёт</span></h1>)
   }
   return(
@@ -61,7 +61,7 @@ const Users =() =>{
         <td>{el.profession.name}</td>
         <td>{el.completedMeetings}</td>
         <td>{el.rate}</td>
-        <td><button className='btn btn-danger' onClick={() =>handleDelBtn(el)}>delete</button></td>
+        <td><button className='btn btn-danger' onClick={() =>handleDelBtn(el._id)}>delete</button></td>
       </tr>
     ))}
     </>
