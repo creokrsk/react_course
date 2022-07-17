@@ -1,7 +1,9 @@
 import React from 'react';
 import Qualitie from './qualitie';
+import Bookmark from './bookmark';
 
-const User = ({ user, ...rest }) => {
+const User = ({ user, onClick, onClickBookmark }) => {
+  // console.log(user.bookmark);
   return (
     <>
       <td>{user.name}</td>
@@ -14,7 +16,14 @@ const User = ({ user, ...rest }) => {
       <td>{user.completedMeetings}</td>
       <td>{user.rate}</td>
       <td>
-        <button className="btn btn-danger" onClick={() => rest.onClick(user._id)}>
+        <Bookmark
+          addededToFavorites={user.bookmark}
+          onAddToFav={onClickBookmark}
+          userId={user._id}
+        />
+      </td>
+      <td>
+        <button className="btn btn-danger" onClick={() => onClick(user._id)}>
           delete
         </button>
       </td>

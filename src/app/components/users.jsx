@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
-import api from '../api';
+import React from 'react';
 import SearchStatus from './searchStatus';
-// import Qualitie from './qualitie';
 import User from './user';
 
-const Users = ({ persons, ...rest }) => {
-  // const persons = props;
-  // console.log(persons);
-  // const [person, setPerson] = useState(api.users.fetchAll());
-
-  // const handleDelBtn = (userId) => {
-  //   setPerson((prevState) => prevState.filter((el) => el._id !== userId));
-  // };
-
+const Users = ({ persons, onDel, onAddToFavorites }) => {
   if (persons.length === 0) {
     return <SearchStatus length={persons.length} />;
   }
@@ -27,19 +17,15 @@ const Users = ({ persons, ...rest }) => {
             <th scope="col">Профессия</th>
             <th scope="col">Встретился, раз</th>
             <th scope="col">Оценка</th>
+            <th scope="col">Избранное</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
           <>
             {persons.map((el) => (
-              <tr key={el.name}>
-                <User user={el} onClick={rest.onDel} />
-                <td>
-                  {/* <button className="btn btn-danger" onClick={() => handleDelBtn(el._id)}>
-                    delete
-                  </button> */}
-                </td>
+              <tr key={el._id}>
+                <User user={el} onClick={onDel} onClickBookmark={onAddToFavorites} />
               </tr>
             ))}
           </>
