@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "./api";
 import Users from "./components/users";
 
 function App() {
-    const [person, setPerson] = useState(api.users.fetchAll());
+    // const [person, setPerson] = useState(api.users.fetchAll());
+
+    const [person, setPerson] = useState();
+
+    useEffect(() => {
+        api.users.fetchAll().then((data) => {
+            setPerson(data);
+        });
+    }, []);
 
     const handleDelBtn = (userId) => {
-        // console.log(userId);
         setPerson((prevState) => prevState.filter((el) => el._id !== userId));
     };
 
@@ -25,11 +32,15 @@ function App() {
     };
 
     return (
-        <Users
-            persons={person}
-            onDel={handleDelBtn}
-            onAddToFavorites={handleBookmarkBtn}
-        />
+        <>
+            {person && (
+                <Users
+                    persons={person}
+                    onDel={handleDelBtn}
+                    onAddToFavorites={handleBookmarkBtn}
+                />
+            )}
+        </>
     );
 }
 
