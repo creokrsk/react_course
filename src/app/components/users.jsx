@@ -41,10 +41,10 @@ const Users = ({ persons, onDel, onAddToFavorites }) => {
 
     const filteredPersons = selectedProf
         ? persons.filter(
-            (person) =>
-                JSON.stringify(person.profession) ===
-                JSON.stringify(selectedProf)
-        )
+              (person) =>
+                  JSON.stringify(person.profession) ===
+                  JSON.stringify(selectedProf)
+          )
         : persons;
 
     console.log(filteredPersons);
