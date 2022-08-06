@@ -21,5 +21,6 @@ module.exports = {
         ],
         quotes: ["error", "double", { allowTemplateLiterals: true }],
         "comma-dangle": ["error", "only-multiline"],
+        "multiline-ternary": ["off"],
     },
 };
