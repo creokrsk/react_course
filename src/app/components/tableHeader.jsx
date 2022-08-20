@@ -56,14 +56,12 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         scope="col"
                     >
                         {columns[column].name}
-                        {/*  */}
 
                         {selectedSort.path === columns[column].path
                             ? selectedSort.order === "asc"
                                 ? arrowUp
                                 : arrowDown
                             : null}
-                        {/*  */}
                     </th>
                 ))}
             </tr>
