@@ -7,7 +7,6 @@ import Main from "./layouts/main";
 import NavBar from "./layouts/navBar";
 import NotFound from "./layouts/notFound";
 import UsersOutput from "./layouts/usersOutput";
-import UserOutput from "./layouts/userOutput";
 
 function App() {
     return (
@@ -16,8 +15,7 @@ function App() {
             <Switch>
                 <Route path="/" exact component={Main} />
                 <Route path="/login" component={Login} />
-                <Route path="/users/:userId" exact component={UserOutput} />
-                <Route path="/users" component={UsersOutput} />
+                <Route path="/users/:userId?" exact component={UsersOutput} />
                 <Route path="/404" component={NotFound} />
                 <Redirect to="/404" />
             </Switch>
