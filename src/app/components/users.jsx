@@ -7,6 +7,7 @@ import GroupList from "./groupList";
 import api from "../api/index";
 import UserTable from "./usersTable";
 import _ from "lodash";
+// import SearchString from "./searchString";
 
 const Users = () => {
     // const count = persons.length;
@@ -83,6 +84,7 @@ const Users = () => {
             [sortBy.path],
             [sortBy.order]
         );
+
         const personCrop = paginate(sortedPersons, currentPage, pageSize);
         const count = filteredPersons.length;
 
@@ -140,6 +142,7 @@ const Users = () => {
 
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    {/* <SearchString users={personCrop} /> */}
                     <UserTable
                         users={personCrop}
                         // onClick={onDel}
