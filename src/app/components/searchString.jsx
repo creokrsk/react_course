@@ -1,43 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-const SearchString = ({ users }) => {
-    const [data, setData] = useState("");
-    const [filteredUsers, setFilteredUsers] = useState(users);
-
-    const handleChange = ({ target }) => {
-        // console.log(target.value);
-        setData(target.value);
-    };
-
-    const handleFind = (e) => {
-        e.preventDefault();
-        console.log("data: ", data);
-        //     setFilteredUsers((prevState) =>
-        //         prevState.filter((el) => el.name !== data)
-        //     );
-        setFilteredUsers();
-    };
-
-    console.log(filteredUsers);
-
+const SearchString = ({ value, onChange }) => {
     return (
-        <form onSubmit={handleFind}>
+        <>
             <input
                 id="search"
                 type="search"
                 name="search"
                 placeholder="Search..."
-                value={data}
-                onChange={handleChange}
+                value={value}
+                onChange={onChange}
             />
-            <button>Search</button>
-        </form>
+        </>
     );
 };
 
 SearchString.propTypes = {
-    users: PropTypes.array.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
 };
 
 export default SearchString;

@@ -7,13 +7,9 @@ import GroupList from "./groupList";
 import api from "../api/index";
 import UserTable from "./usersTable";
 import _ from "lodash";
-// import SearchString from "./searchString";
+import SearchString from "./searchString";
 
 const Users = () => {
-    // const count = persons.length;
-
-    // const [person, setPerson] = useState(api.users.fetchAll());
-
     const [persons, setPersons] = useState();
 
     useEffect(() => {
@@ -46,6 +42,7 @@ const Users = () => {
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ iterator: "name", order: "asc" });
+    const [searchData, setSearchData] = useState("");
 
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
@@ -56,10 +53,11 @@ const Users = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchData]);
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setSearchData("");
     };
 
     const handlePageChange = (pageIndex) => {
@@ -68,6 +66,14 @@ const Users = () => {
 
     const handleSort = (item) => {
         setSortBy(item);
+    };
+
+    // const [filteredUsers, setFilteredUsers] = useState(users);
+
+    const handleSearch = ({ target }) => {
+        console.log(target.value);
+        setSearchData(target.value);
+        setSelectedProf();
     };
 
     if (persons) {
@@ -79,14 +85,20 @@ const Users = () => {
               )
             : persons;
 
+        const searchedFilteredPersons = filteredPersons.filter((person) =>
+            person.name.toLowerCase().includes(searchData.toLowerCase())
+        );
+
         const sortedPersons = _.orderBy(
-            filteredPersons,
+            // filteredPersons,
+            searchedFilteredPersons,
             [sortBy.path],
             [sortBy.order]
         );
 
         const personCrop = paginate(sortedPersons, currentPage, pageSize);
-        const count = filteredPersons.length;
+        // const count = filteredPersons.length;
+        const count = searchedFilteredPersons.length;
 
         const clearFilter = () => {
             setSelectedProf();
@@ -116,6 +128,10 @@ const Users = () => {
                     )}
                     <div className="d-flex flex-column">
                         <SearchStatus length={count} />
+                        <SearchString
+                            value={searchData}
+                            onChange={handleSearch}
+                        />
                     </div>
                 </div>
             );
@@ -142,7 +158,7 @@ const Users = () => {
 
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    {/* <SearchString users={personCrop} /> */}
+                    <SearchString value={searchData} onChange={handleSearch} />
                     <UserTable
                         users={personCrop}
                         // onClick={onDel}
