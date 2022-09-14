@@ -5,9 +5,14 @@ export function validator(data, config) {
         let statusValidate;
 
         switch (validateMethod) {
-            case "isRequired":
-                statusValidate = data.trim() === "";
+            case "isRequired": {
+                if (typeof data === "boolean") {
+                    statusValidate = !data;
+                } else {
+                    statusValidate = data.trim() === "";
+                }
                 break;
+            }
             case "isEmail": {
                 const emailRegExp = /^\S+@\S+\.\S+$/g; // проверка емейла
                 statusValidate = !emailRegExp.test(data);
@@ -26,6 +31,16 @@ export function validator(data, config) {
             case "min": {
                 statusValidate = data.length < config.value;
 
+                break;
+            }
+            case "isFirstCapital": {
+                const firstCapitalRegExp = /^([A-Z]+|[А-ЯЁ]+)/g;
+                statusValidate = !firstCapitalRegExp.test(data);
+                break;
+            }
+            case "isonlyLetter": {
+                const onlyLetterRegExp = /^[A-Za-z\s]|[А-ЯЁа-яё\s]$/g;
+                statusValidate = !onlyLetterRegExp.test(data);
                 break;
             }
             default:

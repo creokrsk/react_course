@@ -4,9 +4,9 @@ import Login from "./layouts/login";
 import Main from "./layouts/main";
 // import api from "./api";
 // import Users from "./components/users";
-import NavBar from "./layouts/navBar";
+import NavBar from "./components/ui/navBar";
 import NotFound from "./layouts/notFound";
-import UsersOutput from "./layouts/usersOutput";
+import Users from "./layouts/users";
 
 function App() {
     return (
@@ -14,8 +14,8 @@ function App() {
             <NavBar />
             <Switch>
                 <Route path="/" exact component={Main} />
-                <Route path="/login" component={Login} />
-                <Route path="/users/:userId?" exact component={UsersOutput} />
+                <Route path="/login/:type?" component={Login} />
+                <Route path="/users/:userId?/:edit?" exact component={Users} />
                 <Route path="/404" component={NotFound} />
                 <Redirect to="/404" />
             </Switch>

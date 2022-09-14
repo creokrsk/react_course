@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { paginate } from "../utils/paginate";
-import Pagination from "./pagination";
-import SearchStatus from "./searchStatus";
+import { paginate } from "../../../utils/paginate";
+import Pagination from "../../common/pagination";
+import SearchStatus from "../../ui/searchStatus";
 import PropTypes from "prop-types";
-import GroupList from "./groupList";
-import api from "../api/index";
-import UserTable from "./usersTable";
+import GroupList from "../../common/groupList";
+import api from "../../../api/index";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import SearchString from "./searchString";
+import SearchString from "../../ui/searchString";
 
-const Users = () => {
+const UsersListPage = () => {
     const [persons, setPersons] = useState();
 
     useEffect(() => {
@@ -106,36 +106,6 @@ const Users = () => {
 
         // console.log(personCrop);
 
-        if (count === 0) {
-            return (
-                <div className="d-flex">
-                    {professions && (
-                        <div className="d-flex flex-column flex-shrink-0 p-3">
-                            <GroupList
-                                selectedItem={selectedProf}
-                                items={professions}
-                                valueProperty="_id"
-                                contentProperty="name"
-                                onItemSelect={handleProfessionSelect}
-                            />
-                            <button
-                                className="btn btn-secondary mt-2"
-                                onClick={clearFilter}
-                            >
-                                Clear list
-                            </button>
-                        </div>
-                    )}
-                    <div className="d-flex flex-column">
-                        <SearchStatus length={count} />
-                        <SearchString
-                            value={searchData}
-                            onChange={handleSearch}
-                        />
-                    </div>
-                </div>
-            );
-        }
         return (
             <div className="d-flex">
                 {professions && (
@@ -158,25 +128,33 @@ const Users = () => {
 
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <SearchString value={searchData} onChange={handleSearch} />
-                    <UserTable
-                        users={personCrop}
-                        // onClick={onDel}
-                        // onClickBookmark={onAddToFavorites}
-                        // onAddToFav={onAddToFav}
-                        onSort={handleSort}
-                        selectedSort={sortBy}
-                        onClick={handleDelBtn}
-                        onClickBookmark={handleBookmarkBtn}
-                    />
-                    <div className="d-flex justify-content-center">
-                        <Pagination
-                            itemsCount={count}
-                            pageSize={pageSize}
-                            currentPage={currentPage}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
+
+                    {count > 0 && (
+                        <>
+                            <SearchString
+                                value={searchData}
+                                onChange={handleSearch}
+                            />
+                            <UserTable
+                                users={personCrop}
+                                // onClick={onDel}
+                                // onClickBookmark={onAddToFavorites}
+                                // onAddToFav={onAddToFav}
+                                onSort={handleSort}
+                                selectedSort={sortBy}
+                                onClick={handleDelBtn}
+                                onClickBookmark={handleBookmarkBtn}
+                            />
+                            <div className="d-flex justify-content-center">
+                                <Pagination
+                                    itemsCount={count}
+                                    pageSize={pageSize}
+                                    currentPage={currentPage}
+                                    onPageChange={handlePageChange}
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         );
@@ -184,11 +162,11 @@ const Users = () => {
     return <h2>Loading</h2>;
 };
 
-Users.propTypes = {
+UsersListPage.propTypes = {
     persons: PropTypes.array,
     onDel: PropTypes.func,
     onAddToFavorites: PropTypes.func,
     onAddToFav: PropTypes.func,
 };
 
-export default Users;
+export default UsersListPage;

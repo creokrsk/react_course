@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import QualitiesList from "./qualitiesList";
-import api from "../api/index";
+import Qualities from "../../ui/qualities";
+import api from "../../../api/index";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-const UserCard = ({ userId }) => {
+const UserPage = ({ userId }) => {
     const history = useHistory();
     const [user, setUser] = useState();
 
@@ -14,8 +14,11 @@ const UserCard = ({ userId }) => {
         });
     }, []);
 
+    // const handleGoToAllUsers = () => {
+    //     history.push("/users");
+    // };
     const handleGoToAllUsers = () => {
-        history.push("/users");
+        history.push(history.location.pathname + "/edit");
     };
 
     return (
@@ -25,7 +28,7 @@ const UserCard = ({ userId }) => {
                     <h1>{user.name}</h1>
                     <h3>Профессия: {user.profession.name}</h3>
                     <div>
-                        <QualitiesList qualities={user.qualities} />
+                        <Qualities qualities={user.qualities} />
                     </div>
                     <div>Completed Meetings: {user.completedMeetings}</div>
                     <h3>Rate: {user.rate}</h3>
@@ -35,7 +38,7 @@ const UserCard = ({ userId }) => {
                             handleGoToAllUsers();
                         }}
                     >
-                        Все пользователи
+                        Изменить
                     </button>
                 </>
             ) : (
@@ -47,8 +50,8 @@ const UserCard = ({ userId }) => {
     );
 };
 
-UserCard.propTypes = {
+UserPage.propTypes = {
     userId: PropTypes.string.isRequired,
 };
 
-export default UserCard;
+export default UserPage;
