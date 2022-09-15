@@ -20,6 +20,7 @@ const UserEditPage = () => {
     const [professions, setProfessions] = useState([]);
     const [qualities, setQualities] = useState([]);
     const [errors, setErrors] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
 
@@ -28,11 +29,12 @@ const UserEditPage = () => {
             setUser((prevState) => ({
                 ...prevState,
                 ...users,
-                qualities: qualities.map((el) => ({
-                    label: el.name,
-                    value: el._id,
-                    color: el.color,
-                })),
+                qualities: transformData(qualities),
+                // qualities: qualities.map((el) => ({
+                //     label: el.name,
+                //     value: el._id,
+                //     // color: el.color,
+                // })),
                 profession: profession._id,
             }))
         );
@@ -53,9 +55,13 @@ const UserEditPage = () => {
         });
     }, []);
 
-    useEffect(() => {
-        console.log(qualities);
-    }, [qualities]);
+    const transformData = (data) => {
+        return data.map((qual) => ({ label: qual.name, value: qual._id }));
+    };
+
+    // useEffect(() => {
+    //     console.log(qualities);
+    // }, [qualities]);
 
     const getProfessionById = (id) => {
         for (const prof of professions) {
@@ -120,6 +126,7 @@ const UserEditPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // console.log(user.qualities);
         const isValid = validate();
         if (!isValid) return;
         const { profession, qualities } = user;
@@ -139,58 +146,71 @@ const UserEditPage = () => {
     useEffect(() => {
         validate();
     }, [user]);
+    useEffect(() => {
+        if (user._id) {
+            setIsLoading(false);
+        }
+    }, [user]);
 
     return (
         <div className="container mt-5">
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    lable="Name"
-                    name="name"
-                    value={user.name}
-                    onChange={handleChange}
-                    error={errors.name}
-                />
-                <TextField
-                    lable="Электронная почта"
-                    name="email"
-                    value={user.email}
-                    onChange={handleChange}
-                    error={errors.email}
-                />
-                <SelectField
-                    defaultOption="Choose..."
-                    onChange={handleChange}
-                    name="profession"
-                    options={professions}
-                    error={errors.profession}
-                    value={user.profession}
-                    label="Выбери свою профессию"
-                />
-                <RadioField
-                    options={[
-                        { name: "Male", value: "male" },
-                        { name: "Female", value: "female" },
-                        { name: "Other", value: "other" },
-                    ]}
-                    value={user.sex}
-                    name="sex"
-                    onChange={handleChange}
-                    label="Выберите ваш пол"
-                />
-                <MultiSelectField
-                    options={qualities}
-                    onChange={handleChange}
-                    dafaultValue={user.qualities}
-                    name="qualities"
-                    label="Выберите ваши качества"
-                />
-                <button
-                    disabled={!isValid}
-                    className="btn btn-primary w-100 mx-auto"
-                >
-                    submit
-                </button>
-            </form>
+            <div className="row">
+                <div className="col-md-6 offset-md-3 shadow p-4">
+                    {!isLoading && Object.keys(professions).length > 0 ? (
+                        <form onSubmit={handleSubmit}>
+                            <TextField
+                                lable="Name"
+                                name="name"
+                                value={user.name}
+                                onChange={handleChange}
+                                error={errors.name}
+                            />
+                            <TextField
+                                lable="Электронная почта"
+                                name="email"
+                                value={user.email}
+                                onChange={handleChange}
+                                error={errors.email}
+                            />
+                            <SelectField
+                                defaultOption="Choose..."
+                                onChange={handleChange}
+                                name="profession"
+                                options={professions}
+                                error={errors.profession}
+                                value={user.profession}
+                                label="Выбери свою профессию"
+                            />
+                            <RadioField
+                                options={[
+                                    { name: "Male", value: "male" },
+                                    { name: "Female", value: "female" },
+                                    { name: "Other", value: "other" },
+                                ]}
+                                value={user.sex}
+                                name="sex"
+                                onChange={handleChange}
+                                label="Выберите ваш пол"
+                            />
+                            <MultiSelectField
+                                options={qualities}
+                                onChange={handleChange}
+                                defaultValue={user.qualities}
+                                name="qualities"
+                                label="Выберите ваши качества"
+                            />
+                            <button
+                                disabled={!isValid}
+                                className="btn btn-primary w-100 mx-auto"
+                            >
+                                Обновить данные
+                            </button>
+                        </form>
+                    ) : (
+                        <h1>loading...</h1>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
