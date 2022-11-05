@@ -8,33 +8,56 @@ import api from "../../../api/index";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchString from "../../ui/searchString";
+import { useUser } from "../../../hooks/useUsers";
 
 const UsersListPage = () => {
-    const [persons, setPersons] = useState();
-
-    useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            setPersons(data);
-        });
-    }, []);
+    // const [persons, setPersons] = useState();
+    // const { users } = useUser();
+    const { persons } = useUser();
+    // console.log(persons);
 
     const handleDelBtn = (userId) => {
-        setPersons((prevState) => prevState.filter((el) => el._id !== userId));
+        // setPersons((prevState) => prevState.filter((el) => el._id !== userId));
+        console.log(userId);
     };
 
+    // const handleBookmarkBtn = (userId) => {
+    //     setPersons((prevState) =>
+    //         prevState.map((el) => {
+    //             if (el._id === userId) {
+    //                 // console.log(el._id, userId);
+    //                 return { ...el, bookmark: !el.bookmark };
+    //             } else {
+    //                 // console.log(el._id, userId);
+    //                 return el;
+    //             }
+    //         })
+    //     );
+    // };
+
     const handleBookmarkBtn = (userId) => {
-        setPersons((prevState) =>
-            prevState.map((el) => {
-                if (el._id === userId) {
-                    // console.log(el._id, userId);
-                    return { ...el, bookmark: !el.bookmark };
-                } else {
-                    // console.log(el._id, userId);
-                    return el;
-                }
-            })
-        );
+        const newArray = persons.map((el) => {
+            if (el._id === userId) {
+                // console.log(el._id, userId);
+                return { ...el, bookmark: !el.bookmark };
+            } else {
+                // console.log(el._id, userId);
+                return el;
+            }
+        });
+        console.log(newArray);
     };
+
+    // const handleBookmarkBtn = (userId) => {
+    //     const newArray = persons.map((person) => {
+    //         if (person._id === userId) {
+    //             return { ...person, bookmark: !person.bookmark };
+    //         }
+    //         return person;
+    //     });
+    //     // setPersons(newArray);
+    //     console.log(newArray);
+    // };
     // App
 
     const pageSize = 8;
