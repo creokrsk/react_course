@@ -9,14 +9,6 @@ const QualitiesList = ({ qualities }) => {
     if (!isLoading) {
         return (
             <>
-                {/* {qualities.map((qual) => (
-                    <Qualitie
-                        key={qual._id}
-                        color={qual.color}
-                        _id={qual._id}
-                        name={qual.name}
-                    />
-                ))} */}
                 {qualities
                     ? qualities.map((_id) => <Qualitie key={_id} id={_id} />)
                     : []}
