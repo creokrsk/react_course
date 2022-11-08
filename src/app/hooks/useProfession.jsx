@@ -15,12 +15,10 @@ const ProfessionProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // console.log("1111");
         getProfessionsList();
     }, []);
 
     useEffect(() => {
-        // console.log("22222");
         if (error !== null) {
             toast(error);
             setError(null);
@@ -32,10 +30,8 @@ const ProfessionProvider = ({ children }) => {
     }
 
     async function getProfessionsList() {
-        // console.log("33333");
         try {
             const { content } = await professionService.get();
-            // console.log(content);
             setProfessions(content);
             setIsLoading(false);
         } catch (error) {

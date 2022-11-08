@@ -3,13 +3,19 @@ import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 // import { validator } from "../../utils/validator";
 import * as yup from "yup";
+import { useLogIn } from "../../hooks/useLogIn";
+import { useHistory } from "react-router-dom";
 
 const LoginForm = () => {
+    // console.log(process.env);
+    const history = useHistory();
     const [data, setData] = useState({
         email: "",
         password: "",
         stayOn: false,
     });
+
+    const { signIn } = useLogIn();
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
@@ -19,7 +25,7 @@ const LoginForm = () => {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const isValid = validate();
@@ -27,6 +33,13 @@ const LoginForm = () => {
             return 0;
         }
         // console.log(data);
+
+        try {
+            await signIn(data);
+            history.push("/");
+        } catch (error) {
+            setErrors(error);
+        }
     };
 
     const validateScheme = yup.object().shape({

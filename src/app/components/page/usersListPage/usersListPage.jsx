@@ -109,7 +109,7 @@ const UsersListPage = () => {
             : persons;
 
         const searchedFilteredPersons = filteredPersons.filter((person) =>
-            person.name.toLowerCase().includes(searchData.toLowerCase())
+            person.name?.toLowerCase().includes(searchData.toLowerCase())
         );
 
         const sortedPersons = _.orderBy(
