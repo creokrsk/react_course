@@ -3,7 +3,7 @@ import { useHistory } from "react-router";
 
 const BackHistoryButton = () => {
     const history = useHistory();
-    console.log(history);
+    // console.log(history);
 
     return (
         <>
@@ -11,8 +11,7 @@ const BackHistoryButton = () => {
                 className="btn btn-primary"
                 onClick={() => history.goBack()}
             >
-                <i className="bi bi-caret-left"></i>
-                Back
+                <i className="bi bi-caret-left">Back</i>
             </button>
         </>
     );

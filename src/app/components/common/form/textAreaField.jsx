@@ -18,7 +18,7 @@ const TextAreaField = ({ label, name, value, onChange, error }) => {
                     name={name}
                     value={value}
                     onChange={handleChange}
-                    className={getInputClasses}
+                    className={getInputClasses()}
                 />
                 {error && <div className="invalid-feedback">{error}</div>}
             </div>

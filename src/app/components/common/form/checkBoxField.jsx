@@ -21,9 +21,9 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
                 onChange={handleChange}
                 checked={value}
             />
-            <lable className={getInputClasses()} htmlFor={name}>
+            <label className={getInputClasses()} htmlFor={name}>
                 {children}
-            </lable>
+            </label>
             {error && <div className="invalid-feedback">{error}</div>}
         </div>
     );

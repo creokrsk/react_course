@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "../common/form/textField";
 import { validator } from "../../utils/validator";
-// import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
@@ -18,6 +17,7 @@ const RegisterForm = () => {
         password: "",
         profession: "",
         sex: "male",
+        name: "",
         qualities: [],
         licence: false,
     });
@@ -104,6 +104,16 @@ const RegisterForm = () => {
             },
         },
 
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения",
+            },
+            min: {
+                message: "Имя должно содержать минимум 2 символа",
+                value: 2,
+            },
+        },
+
         password: {
             isRequired: { message: "Поле пароль обязательно для заполнения" },
             isCapitalSymbol: {
@@ -147,6 +157,13 @@ const RegisterForm = () => {
                 value={data.email}
                 onChange={handleChange}
                 error={errors.email}
+            />
+            <TextField
+                lable="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
             />
             <TextField
                 lable="Пароль"

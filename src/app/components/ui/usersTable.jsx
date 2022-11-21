@@ -7,13 +7,7 @@ import Table, { TableHeader, TableBody } from "../common/table";
 import { Link } from "react-router-dom";
 import Profession from "./profession";
 
-const UserTable = ({
-    users,
-    onSort,
-    selectedSort,
-    onClickBookmark,
-    onClick,
-}) => {
+const UserTable = ({ users, onSort, selectedSort, onClickBookmark }) => {
     const columns = {
         name: {
             path: "name",
@@ -40,20 +34,10 @@ const UserTable = ({
             name: "Избранное",
             component: (user) => (
                 <Bookmark
-                    addededToFavorites={user.bookmark}
+                    addededToFavorites={user?.bookmark}
                     onAddToFav={onClickBookmark}
                     userId={user._id}
                 />
-            ),
-        },
-        delete: {
-            component: (user) => (
-                <button
-                    className="btn btn-danger"
-                    onClick={() => onClick(user._id)}
-                >
-                    delete
-                </button>
             ),
         },
     };
@@ -68,26 +52,6 @@ const UserTable = ({
                 <TableHeader {...{ onSort, selectedSort, columns }} />
                 <TableBody {...{ columns, data: users }} />
             </Table>
-            {/* <TableHeader
-                selectedSort={selectedSort}
-                onSort={onSort}
-                columns={columns}
-            /> */}
-            {/* <TableBody columns={columns} data={users} /> */}
-            {/* <tbody>
-                <>
-                    {users.map((el) => (
-                        <tr key={el._id}>
-                            <User
-                                user={el}
-                                onClick={onDel}
-                                onClickBookmark={onAddToFavorites}
-                                key={el._id}
-                            />
-                        </tr>
-                    ))}
-                </>
-            </tbody> */}
         </>
     );
 };
@@ -99,7 +63,7 @@ UserTable.propTypes = {
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
     onClickBookmark: PropTypes.func.isRequired,
-    onClick: PropTypes.func.isRequired,
+    // onClick: PropTypes.func.isRequired,
 };
 
 export default UserTable;
