@@ -88,13 +88,13 @@ const UserEditPage = () => {
         // console.log(user.qualities);
         const isValid = validate();
         if (!isValid) return;
-        const newData = {
+        const newUser = {
             ...user,
             qualities: user.qualities.map((q) => q.value),
         };
 
         try {
-            await updateUser(newData);
+            await updateUser(newUser);
             history.push("/users");
         } catch (error) {
             setErrors(error);
