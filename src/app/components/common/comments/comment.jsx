@@ -14,6 +14,7 @@ const Comment = ({
     const { getUserById } = useUser();
     const { currentUser } = useAuth();
     const user = getUserById(userId);
+    // console.log(user.image);
 
     return (
         <div className="bg-light card-body mb-3">

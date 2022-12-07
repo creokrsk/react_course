@@ -43,7 +43,7 @@ const Bookmark = ({ addededToFavorites, onAddToFav, userId }) => {
 };
 
 Bookmark.propTypes = {
-    addededToFavorites: PropTypes.bool.isRequired,
+    addededToFavorites: PropTypes.bool,
     onAddToFav: PropTypes.func.isRequired,
     userId: PropTypes.string.isRequired,
 };

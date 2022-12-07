@@ -36,7 +36,7 @@ http.interceptors.request.use(
             if (accessToken) {
                 config.params = { ...config.params, auth: accessToken };
             }
-            // console.log(config.url);
+            // console.log(config);
         }
         return config;
     },
@@ -82,6 +82,7 @@ const httpService = {
     post: http.post,
     put: http.put,
     delete: http.delete,
+    patch: http.patch,
 };
 
 export default httpService;

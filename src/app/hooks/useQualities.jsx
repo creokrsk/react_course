@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
-import qualityService from "../services/qualitie.service";
+import qualityService from "../services/quality.service";
 
 const QualitiesContext = React.createContext();
 
@@ -11,13 +11,30 @@ export const useQualities = () => {
 
 const QualitiesProvider = ({ children }) => {
     const [qualities, setQualities] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        getQualitiesList();
+        const getQualities = async () => {
+            try {
+                const { content } = await qualityService.FetchAll();
+                // console.log("content ", content);
+                setQualities(content);
+                setLoading(false);
+            } catch (error) {
+                errorCatcher(error);
+            }
+        };
+        getQualities();
     }, []);
+    const getQuality = (id) => {
+        return qualities.find((q) => q._id === id);
+    };
 
+    function errorCatcher(error) {
+        const { message } = error.response.data;
+        setError(message);
+    }
     useEffect(() => {
         if (error !== null) {
             toast(error);
@@ -25,28 +42,14 @@ const QualitiesProvider = ({ children }) => {
         }
     }, [error]);
 
-    async function getQualitiesList() {
-        try {
-            const { content } = await qualityService.FetchAll();
-            // console.log(content);
-            setQualities(content);
-            setIsLoading(false);
-        } catch (error) {
-            errorCatcher(error);
-        }
-    }
-
-    function getQuality(id) {
-        return qualities.find((q) => q._id === id);
-    }
-
-    function errorCatcher(error) {
-        const { message } = error.response.data;
-        setError(message);
-    }
-
     return (
-        <QualitiesContext.Provider value={{ qualities, isLoading, getQuality }}>
+        <QualitiesContext.Provider
+            value={{
+                qualities,
+                getQuality,
+                isLoading,
+            }}
+        >
             {children}
         </QualitiesContext.Provider>
     );

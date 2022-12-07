@@ -6,7 +6,6 @@ import userService from "../services/user.service";
 import { toast } from "react-toastify";
 import localStorageService, {
     setTokens,
-    getAccessToken,
 } from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
 
@@ -23,6 +22,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
+    // console.log(process.env.REACT_APP_FIREBASE_KEY);
     const [currentUser, setUser] = useState();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -141,24 +141,7 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    async function updateUser({ _id, email, password, ...rest }) {
-        try {
-            const { data } = await httpAuth.post("account:update", {
-                idToken: getAccessToken(),
-                email,
-                password,
-                returnSecureToken: true,
-            });
-            const userData = { _id, email, ...rest };
-            await updateCurrUser(userData);
-            return data;
-        } catch (error) {
-            errorCatcher(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-    async function updateCurrUser(data) {
+    async function updateUser(data) {
         try {
             const { content } = await userService.update(data);
             setUser(content);
