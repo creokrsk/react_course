@@ -3,8 +3,10 @@ import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
 // import { validator } from "../../utils/validator";
 import * as yup from "yup";
-import { useAuth } from "../../hooks/useAuth";
+// import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/users";
 
 const LoginForm = () => {
     // console.log(process.env);
@@ -15,7 +17,8 @@ const LoginForm = () => {
         stayOn: false,
     });
 
-    const { signIn } = useAuth();
+    // const { signIn } = useAuth();
+    const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
@@ -25,7 +28,7 @@ const LoginForm = () => {
         }));
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         const isValid = validate();
@@ -33,17 +36,10 @@ const LoginForm = () => {
             return 0;
         }
         // console.log(data);
-
-        try {
-            await signIn(data);
-            history.push(
-                history.location.state
-                    ? history.location.state.from.pathname
-                    : "/"
-            );
-        } catch (error) {
-            setErrors(error);
-        }
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : "/";
+        dispatch(login({ payload: data, redirect }));
     };
 
     const validateScheme = yup.object().shape({
@@ -68,30 +64,6 @@ const LoginForm = () => {
             .required("Электронная почта обязательна для заполнения")
             .email("Email введён некорректно"),
     });
-
-    // const validatorConfig = {
-    //     email: {
-    //         isRequired: {
-    //             message: "Электронная почта обязательна для заполнения",
-    //         },
-    //         isEmail: {
-    //             message: "Email введён некорректно",
-    //         },
-    //     },
-    //     password: {
-    //         isRequired: { message: "Поле пароль обязательно для заполнения" },
-    //         isCapitalSymbol: {
-    //             message: "Пароль должен содержать хотя бы 1 заглавную букву",
-    //         },
-    //         isContainDigit: {
-    //             message: "Пароль должен содержать хотя бы одну цифру",
-    //         },
-    //         min: {
-    //             message: "В пароле должно быть минимум 8 символов",
-    //             value: 8,
-    //         },
-    //     },
-    // };
 
     useEffect(() => {
         validate();

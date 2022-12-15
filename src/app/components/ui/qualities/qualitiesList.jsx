@@ -12,11 +12,11 @@ import {
 const QualitiesList = ({ qualities }) => {
     const dispatch = useDispatch();
     const isLoading = useSelector(getQualitiesLoadingStatus());
+    const qualitiesList = useSelector(getQualitiesByIds(qualities));
+    useEffect(() => {
+        dispatch(loadQualitiesList());
+    }, []);
     if (!isLoading) {
-        const qualitiesList = useSelector(getQualitiesByIds(qualities));
-        useEffect(() => {
-            dispatch(loadQualitiesList());
-        }, []);
         // console.log(qualities);
 
         return (

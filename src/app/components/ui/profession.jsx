@@ -10,7 +10,7 @@ const Profession = ({ id }) => {
     // const { isLoading, getProfession } = useProfessions();
     const isLoading = useSelector(getProfessionsLoadingStatus());
     const prof = useSelector(getProfessionById(id));
-    console.log(prof);
+    // console.log(prof);
     if (!isLoading) {
         return <p>{prof.name}</p>;
     } else {

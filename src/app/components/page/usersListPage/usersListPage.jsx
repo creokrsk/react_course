@@ -7,20 +7,16 @@ import GroupList from "../../common/groupList";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchString from "../../ui/searchString";
-import { useUser } from "../../../hooks/useUsers";
-import { useAuth } from "../../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import {
     getProfessions,
     getProfessionsLoadingStatus,
 } from "../../../store/professions";
+import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
-    // const [persons, setPersons] = useState();
-    // const { users } = useUser();
-    const { persons } = useUser();
-    const { currentUser } = useAuth();
-    // console.log(persons);
+    const persons = useSelector(getUsersList());
+    const currentUserId = useSelector(getCurrentUserId());
 
     const handleDelBtn = (userId) => {
         // setPersons((prevState) => prevState.filter((el) => el._id !== userId));
@@ -89,7 +85,7 @@ const UsersListPage = () => {
                           JSON.stringify(selectedProf)
                   )
                 : data;
-            return filteredPersons.filter((p) => p._id !== currentUser._id);
+            return filteredPersons.filter((p) => p._id !== currentUserId);
         }
 
         const filteredPersons = filterUsers(persons);

@@ -49,7 +49,14 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
     }
 };
 
-export const getProfessions = () => (state) => state.professions.entities;
+export const getProfessions = () => (state) => {
+    // console.log(state.professions.entities);
+    // if (state.professions.entities) {
+    return state.professions.entities;
+    // } else {
+    //     return [];
+    // }
+};
 export const getProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading;
 
