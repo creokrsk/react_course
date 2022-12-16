@@ -5,8 +5,8 @@ import CheckBoxField from "../common/form/checkBoxField";
 import * as yup from "yup";
 // import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../../store/users";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthError, login } from "../../store/users";
 
 const LoginForm = () => {
     // console.log(process.env);
@@ -17,7 +17,7 @@ const LoginForm = () => {
         stayOn: false,
     });
 
-    // const { signIn } = useAuth();
+    const loginError = useSelector(getAuthError());
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
 
@@ -105,6 +105,7 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
+            {loginError && <p className="text-danger">{loginError}</p>}
             <button
                 disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"
